@@ -8,11 +8,10 @@ function App() {
   return (
     <BrowserRouter>
     
-<AuthContextProvider>
-
-      <Route path='/' component={Home} exact/>
-      <Route path='/rooms/new'component={NewRoom}/>
-</AuthContextProvider>
+      <AuthContextProvider>
+        <Route path='/' component={Home} exact/>
+        <Route path='/rooms/new'component={NewRoom}/>
+      </AuthContextProvider>
     
     </BrowserRouter>
     
