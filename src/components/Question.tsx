@@ -7,10 +7,11 @@ type QuestionProps = {
     name: string;
     avatar: string;
   }
+  children?: React.ReactNode;
 }
 
 export default function Question(props: QuestionProps) {
-  const { content, author } = props;
+  const { content, author, children } = props;
   return (
     <div className="question">
       <p>{content}</p>
@@ -19,7 +20,7 @@ export default function Question(props: QuestionProps) {
           <img src={author.avatar} alt={author.name}/>
           <span>{author.name}</span>
         </div>
-        <div></div>
+        <div>{children}</div>
       </footer>
     </div>
   )
