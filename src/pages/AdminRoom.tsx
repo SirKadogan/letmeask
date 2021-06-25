@@ -1,53 +1,33 @@
-import logoImg from '../assets/images/logo.svg';
+import { FormEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { database } from '../services/firebase';
+
 import { Button } from '../components/Button';
 import { RoomCode } from '../components/RoomCode';
-import { useParams } from 'react-router-dom';
+import Question from '../components/Question';
+
+import logoImg from '../assets/images/logo.svg';
+import deleteImg from '../assets/images/delete.svg';
+
+import { useAuth } from '../hooks/useAuth';
+import { useRoom } from '../hooks/useRoom';
 
 import '../styles/room.scss';
-import { FormEvent, useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { database } from '../services/firebase';
-import { useEffect } from 'react';
-import Question from '../components/Question';
-import { useRoom } from '../hooks/useRoom';
 
 type RoomParams = {
   id: string;
 }
 
 
-
 export default function AdminRoom() {
-  const {user} = useAuth();
   const params = useParams<RoomParams>();
   const roomId = params.id;
-  const [newQuestion, setNewQuestion] = useState('');
   const {questions, title} = useRoom(roomId);
 
-  const handleSendQuestion = async (event: FormEvent) => {
-    event.preventDefault();
-
-    if (newQuestion.trim() === '') {
-      return;
-    }
-
-    if (!user) {
-      throw new Error('You must sign in first');
-    }
-
-    const question = {
-      content: newQuestion,
-      author: {
-        name: user.name,
-        avatar: user.avatar,
-      },
-      isHighlighted: false,
-      isAnswered: false,
-    }
-
-    await database.ref(`rooms/${roomId}/questions`).push(question);
-    
-    setNewQuestion('');
+  const handleDeleteQuestion = async (questionId: string) => {
+    if (window.confirm("Tem certeza que deseja excluir essa pergunta?")){
+      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
+    };
   }
 
 
@@ -69,7 +49,18 @@ export default function AdminRoom() {
       </div>
      
       <div className="question-list">
-        {questions.map((question) => <Question key={question.id} {...question}/>)}
+        {questions.map((question) => 
+          <Question key={question.id} {...question}>
+            <button
+            type ="button"
+            onClick = {() => handleDeleteQuestion(question.id)}
+            >
+              
+              <img src ={deleteImg} alt="Remover pergunta"/>
+            </button>
+
+          </Question>
+        )}
       </div>
     </main>
   </div>
