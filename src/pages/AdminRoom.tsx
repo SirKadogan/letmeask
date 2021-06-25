@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { database } from '../services/firebase';
 
 import { Button } from '../components/Button';
@@ -20,6 +20,7 @@ type RoomParams = {
 
 
 export default function AdminRoom() {
+  const history = useHistory();
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const {questions, title} = useRoom(roomId);
@@ -30,15 +31,23 @@ export default function AdminRoom() {
     };
   }
 
+  const handleEndRoom = async () => {
+    await database.ref(`rooms/${roomId}`).update({
+      endedAt: new Date()
+    });
+    history.push('/');
+  }
 
-
-  return <div id = "page-room">
+return <div id = "page-room">
     <header>
       <div className = "content">
         <img src={logoImg} alt = "letmeask"/>
         <div>
           <RoomCode code={roomId}/>
-          <Button isOutlined>Encerrar sala</Button>
+          <Button 
+            onClick = {handleEndRoom}
+            isOutlined
+          >Encerrar sala</Button>
         </div>
       </div>
     </header>
