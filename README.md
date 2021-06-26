@@ -6,7 +6,7 @@
   <img alt="laptop" src="/src/assets/laptop.png" width="100%">
 </p>
 
-# Ultimate Carousel - Thales Kenne
+# Letmeask - Thales Kenne
 
 Letmeask is a Q&A forum built during NLW05, a one week course to practice react. This particular version was focused mostly on builiding a live application ready for production by using Firebase.
 
@@ -30,8 +30,14 @@ You can view the live project [here](https://letmeask-edaae.web.app/)
 
 - Firebase is a great tool for this specific project given that it's really easy to implement real time functionalities and hosting. 
 
+### :exclamation: Known issues
+
+- Given the short time to build, the project is not responsive for mobile screens.
+
+- The feature to answer questions has not been implemented as it's very similar to the question functionality
 
 ### :computer: Instructions to run
 
 - Run `yarn` or `npm install` to install dependencies
 - Run `yarn start` or `npm run start` to start the application on port `:3000`
+
